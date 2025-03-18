@@ -1,0 +1,31 @@
+Given enough time, a knight on a standard 8x8 chess board can move from any square to any other square.
+2 steps forward and 1 to the side
+or
+1 step forward and 2 to the side
+    in any direction
+
+In this problem, the chessboard can be represented as a graph:
+    - Each square on the board is a node (or vertex)
+    - A knight's valid moves from any square represent the edges (or connections) between the vertices
+    - This way, the problem of finding the shortest path for the knight becomes a graph traversal problem
+
+The vertices in this graph are each of the possible positions on the chessboard, represented by a pair of coordinates like (x, y), where x and y are between 0 and 7.
+The edges are the valid knight moves between vertices. For example, from [0,0], a knight can move to [2,1], [1,2], and so on. Each of these moves representes 
+a connection between the vertex [0,0] and the other reachable vertices
+
+Graph representation
+
+While solving this problem, you don't need to explicitly create a graph object with vertices and edges. Instead, you can think of the graph as implicit. The knight
+starts on a specifix vertex, and the algorithm will dynamically explore all possible moves (edges) to the other vertices (positions on the board) as it
+traverses the board.
+
+Assignment
+
+Your task is to build a function knight_moves that shows the shortest possible way to get from one square to another
+by outputting all squares the knight will stop on along the way
+
+You can think of the board as having 2-dimensional coordinates. Your function would therefore look like:
+
+knight_moves([0,0],[1,2]) == [[0,0], [1, 2]]
+
+Sometimes there is more than one fastest path. Any answer is correct as long as it follows the rules and gives the shortest possible path
