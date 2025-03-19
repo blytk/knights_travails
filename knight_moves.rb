@@ -4,16 +4,34 @@
 #4. Use the chosen search algorithm to find the shortest path between the starting square (or node) and the ending square. Output what that full path looks like.
 def knight_moves(starting_square = [0,0], ending_square = [7,7])
     queue = [starting_square]
-    # start at starting_square
+    # Need to keep track of the path, each square visited should be a key, and it's value should be it's parent, this way we can trace back
+    # the path, once the target square is found
+    visited_squares = { starting_square => nil }
     
-    # finish condition
     while !queue.empty?
         current_square = queue.shift
+        
         if current_square == ending_square
-            return "shortest path found"
+            # target_square found, should reconstruct / return the path
+            path = []
+            while current_square
+                path.unshift(current_square)
+                current_square = visited_squares[current_square]
+            end
+            puts "You made it in #{path.length} moves! Here's your path:"
+            return path
         end
         
-        moves = calculate_moves(current)
+        moves = calculate_moves(current_square)
+        
+
+        moves.each do |square_coordinates|
+            if !visited_squares.key?(square_coordinates)
+                visited_squares[square_coordinates] = current_square
+                queue << square_coordinates
+            end
+            
+        end
     end
 end
 
@@ -21,6 +39,8 @@ def calculate_moves(square_coordinates)
     min_limit = 0
     max_limit = 7
     output_set_of_squares = []
+    x = square_coordinates[0]
+    y = square_coordinates[1]
     # knight can move:
         # x + 2, y + 1
         output_set_of_squares << [x + 2, y + 1]
@@ -46,11 +66,15 @@ def calculate_moves(square_coordinates)
         y_coordinate = output_set_of_squares[i][1]
         
         if x_coordinate < min_limit || x_coordinate > max_limit || y_coordinate < min_limit || y_coordinate > max_limit
-            output_set_of_squares.delete(i)
+            output_set_of_squares.delete_at(i)
         else
-            index += 1
+            i += 1
         end
     end
     return output_set_of_squares
     
 end
+
+p knight_moves([3,3],[4,3])
+p knight_moves([0,0],[7,7])
+p knight_moves([0,0],[0,1])
